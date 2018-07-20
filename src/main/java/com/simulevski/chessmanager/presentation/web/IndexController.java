@@ -27,12 +27,12 @@ public class IndexController {
     private final TournamentService tournamentService;
 
     private final String INDEX = "index";
-    private final int PAGESIZE = 17;
+    private final int PAGESIZE = 21;
 
     @GetMapping
     public String index(Model model, Optional<Integer> page){
         int pageVal = page.isPresent() ? page.get() : 0;
-        int pages = (int) Math.ceil(Double.parseDouble(Integer.valueOf(tournamentService.getCount()).toString()) / Double.parseDouble(Integer.valueOf(PAGESIZE).toString()));
+        int pages = (int) Math.ceil(Double.parseDouble(Integer.valueOf(tournamentService.getCount()).toString()) / Double.parseDouble(Integer.valueOf(PAGESIZE-1).toString()));
 
         if(pageVal > pages){
             pageVal = 0;
@@ -40,7 +40,7 @@ public class IndexController {
 
         Page<Tournament> tournaments = tournamentService.getTournamentPage(pageVal,PAGESIZE-1);
 
-        if (pages == pageVal+1){
+        if (pages-1 == pageVal){
             pageVal--;
         }
 
