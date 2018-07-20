@@ -10,6 +10,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -24,5 +26,10 @@ public class TournamentService {
 
     public int getCount(){
         return tournamentRepository.countAll();
+    }
+
+    public Tournament getById(String id) {
+        Optional<Tournament> tournament = tournamentRepository.findById(id);
+        return tournament.orElse(null);
     }
 }
