@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -23,8 +24,9 @@ public class MemberService {
         return memberRepository.findAll(PageRequest.of(page,pageSize));
     }
 
-    public List<Member> getByFirstNameStartsWith(String firstname){
-        return memberRepository.findByFirstNameStartsWith(firstname);
+    public Member getById(String id){
+        Optional<Member> member = memberRepository.findById(id);
+        return member.orElse(null);
     }
 
 }

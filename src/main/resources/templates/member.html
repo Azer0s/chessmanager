@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <title>Chess Manager</title>
+</head>
+
+<nav class="navbar navbar-light bg-light justify-content-between">
+    <a class="navbar-brand">Chess Manager</a>
+    <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+</nav>
+<br>
+<div class="container">
+    <h3 th:utext="${member.getFirstName() + ' ' + member.getLastName()}"></h3>
+    <h4 style="color: grey;" class="mb-1" th:utext="${member.getTitle().getDescription() + ' (' + #dates.format(member.getRankingDate(), 'dd-MMM-yyyy') + ')'}"></h4>
+    <h5 style="color: grey;" th:utext="${'<h5 style=&quot;color: black; &quot;>Phone: </h5>' + member.getPhoneNum()}"></h5>
+    <h5 style="color: grey;" th:utext="${'<h5 style=&quot;color: black; &quot;>Email: </h5>' + member.getEmail()}"></h5>
+    <h5 style="color: grey;" th:utext="${'<h5 style=&quot;color: black; &quot;>Nationality: </h5>' + member.getNationality()}"></h5>
+
+    <hr>
+
+    <h4>Tournaments</h4>
+
+    <div class="list-group">
+        <a th:href="${'/tournament/' + tournament.getId()}" class="list-group-item list-group-item-action flex-column align-items-start" th:each="tournament : ${member.getTournaments()}">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1" th:utext="${'Hosted by ' + tournament.getHost().getName() + ': ' + #dates.format(tournament.getStart(), 'dd-MMM-yyyy') + ' - ' + #dates.format(tournament.getEnd(), 'dd-MMM-yyyy')}"></h5>
+                <small th:utext="${tournament.getContestants().size() + ' contestants'}"></small>
+            </div>
+            <p class="mb-1" th:utext="${tournament.getCity() + ', ' + tournament.getCountry()}"></p>
+            <small th:utext="${tournament.getStreet() + ' ' + tournament.getStreetNr() + ', ' + tournament.getCity() + ' ' + tournament.getPostcode()}"></small>
+        </a>
+    </div>
+
+    <hr>
+
+    <h4>Clubs</h4>
+
+    <div class="list-group">
+        <a th:href="${'/club/' + club.getId()}" class="list-group-item list-group-item-action flex-column align-items-start" th:each="club : ${member.getClubs()}">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1" th:utext="${club.getName()}"></h5>
+                <small th:utext="${club.getMembers().size() + ' members'}"></small>
+            </div>
+            <p class="mb-1" th:utext="${club.getCity() + ', ' + club.getCountry()}"></p>
+            <small th:utext="${club.getStreet() + ' ' + club.getStreetNr() + ', ' + club.getCity() + ' ' + club.getPostcode()}"></small>
+        </a>
+    </div>
+</div>
+<br>
+</html>
